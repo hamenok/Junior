@@ -16,9 +16,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 850px;
-    background-color:#f4f4f4;
-
+    padding-top: 30px;
 }
 .wrapper {
     width: 350px;
@@ -149,5 +147,8 @@ ul a {
 }
 ul a:hover {
     cursor: pointer;
+    background:#909faa4d;
+}
+.active {
     background:#909faa4d;
 }

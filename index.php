@@ -10,23 +10,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+    <script src="popup/jquery.toastmessage.js" type="text/javascript"></script>
+  	<link href="popup/css/jquery.toastmessage.css" rel="stylesheet">
 </head>
 <body>
+    <?php
+    session_start();
+    ?>
     <header>
         <div>
-            Hello, Гость!
+            Hello, 
+            <?php 
+                if (isset($_SESSION['login'])) {
+                    echo $_SESSION['login'];
+                } else {
+                    echo "Гость";
+                }
+            ?>
         </div>
     </header>
     <ul>
-        <li><a href='/pages/registrationForm.html'>Регистрация</a></li>
-        <li><a href='/pages/authForm.html'>Авторизация</a></li>
-        <li><a href='/pages/removeForm.php'>Удаление данных</a></li>
+        <?php 
+            if (isset($_POST['logOFF'])) {
+                session_destroy();
+            }
+            if (isset($_SESSION['login'])) {
+                echo '<li><a href="#" id="navEdit">Удаление данных</a></li>';
+                echo '<li><a href="#" id="logOFF">Выйти</a></li>';
+            } else {
+                echo '<li><a href="#" id="navReg">Регистрация</a></li>';
+                echo '<li><a href="#" id="navAuth">Авторизация</a></li>';
+            }
+        ?>
     </ul>
     <main class="container">
-    
-    
+    </main>
+    <script type="text/javascript" src="/js/registration.js"></script>
+    <script type="text/javascript" src="/js/edit.js"></script>
+    <script type="text/javascript" src="/js/auth.js"></script>
     <script type="text/javascript" src="/js/main.js"></script>
-
 </body>
 </html>

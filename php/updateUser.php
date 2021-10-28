@@ -1,40 +1,18 @@
-<?php
-    function readJSON() {
-        $file = file_get_contents('db\base.json');
-        $data = json_decode($file, true); 
-        unset($file);
-
-        return $data;
-    }
-
-    $countID=0;
+<?php 
+    include 'includes.php';
     $data = readJSON();
-    echo '<div id="tableUser">';
-    
-    echo '<table>';
-            
-    echo '<th>№</th><th>Логин</th><th>Пароль</th><th>Почта</th><th>Действие</th>';
-    if (count($data) > 0) {
-        forEach($data as $arr) {
-            $countID = $countID + 1;
-            echo '<tr>';
-            echo "<td>$countID</td>";
-            forEach($arr as $key => $value){
-               echo "<td>$value</td>";
-            
-            }
- 
-            echo "<td><button id='remove' name=$value>Удалить </button></td>";
-            echo '</tr>';
+    //Ищем совпадение изменяемых данных, если нашли, то меняем, если пароль меняем, то его ещё и шифруем
+    foreach ( $data  as $key => $value){        
+        if (in_array($_POST["dataOld"], $value)) {  
+            if ($_POST["nameKey"]=="password") {
+                $salt = 'junior';
+                $hash = md5(sha1($_POST["dataNew"] . $salt));
+                $data[$_POST["key"]-1][$_POST["nameKey"]]=$hash; 
+            } else {
+                $data[$key][$_POST["nameKey"]]=$_POST["dataNew"];
+            }    
         };
     };
-    
-    echo '</table>';
-   
-    echo '</div>';
-
-
-
-
-
+    saveJSON($data);
+    exit('Reload');
 ?>

@@ -1,9 +1,7 @@
 <?php
     function createUser($log,$pswd,$mail) {
         //считываем json-файл
-        $file = file_get_contents('..\db\base.json');
-        $data = json_decode($file, true);
-        unset($file);  
+        $data = readJSON(); 
         $count=0;
         //если в файле есть записи, то проверяем логин и эмейл
         if (count($data) > 0) {
@@ -15,12 +13,17 @@
         };
         //если нет совпадений в файле, то создаём новый экземпляр класса и его записываем в json-файл
         if ($count < 1) {
-            $login1= new User($log,$pswd,$mail);
+            if ($log==''||$mail=='') {
+                echo "ERROR_CREATE_USER";
+            } else {
+                $login1= new User($log,$pswd,$mail);
                 $login1->cryptoPSWD();
                 $data[]=$login1;
-                file_put_contents('..\db\base.json',json_encode($data));
-                unset($data);
+                saveJSON($data);
                 $count = 0;
-        };
+            } 
+        } else {
+            echo "ERROR_CREATE_USER";
+        }
     };
 ?>

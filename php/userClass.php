@@ -14,8 +14,8 @@
         }
         //метод шифрования пароля
         function cryptoPSWD(){
-            $salt = uniqid('', true);
-            $hash = sha1($password . $salt);
+            $salt = 'junior';
+            $hash = md5(sha1($this->password . $salt));
             $this->password = $hash;
         }
     }
